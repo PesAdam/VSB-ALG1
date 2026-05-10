@@ -8,11 +8,11 @@
 
 #include "graph.hpp"
 
-// ============================================================
-// globalne premene
-// ============================================================
+ // ============================================================
+ // globalne premene
+ // ============================================================
 
-/// @copydoc n
+ /// @copydoc n
 int n;
 /// @copydoc adj
 vector<vector<int>> adj;
@@ -36,8 +36,9 @@ void dfs(int u) {
             cyklus = true;
             return;
         }
-        if (stav[v] == 0)
+        if (stav[v] == 0) {
             dfs(v); // rekurzia
+        }
 
         if (cyklus) return; // ak je cyklus tak koncime rekurziu
     }
@@ -52,9 +53,11 @@ bool jeDAG() {
     topo.clear();
 
     // spustime DFS z kazdeho vrcholu
-    for (int i = 0; i < n; i++)
-        if (stav[i] == 0)
+    for (int i = 0; i < n; i++) {
+        if (stav[i] == 0) {
             dfs(i);
+        }
+    }
 
     // DFS pridava odzadu preto my potrebujeme topo otocit
     reverse(topo.begin(), topo.end());
@@ -64,19 +67,22 @@ bool jeDAG() {
 
 void doplnDAG(const string& vystupSubor) {
     // mnozina existujucich hran
-    set<pair<int,int>> hrany;
+    set<pair<int, int>> hrany;
 
-    for (int u = 0; u < n; u++)
-        for (int v : adj[u])
-            hrany.insert({u, v});
+    for (int u = 0; u < n; u++) {
+        for (int v : adj[u]) {
+            hrany.insert({ u, v });
+        }
+    }
 
     // pridame chybajuce hrany podla topologickeho poradia (i < j → bez cyklu)
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
             int u = topo[i]; // predchodca
             int v = topo[j]; // nasledovnik
-            if (!hrany.count({u, v}))
-                hrany.insert({u, v});
+            if (!hrany.count({ u, v })) {
+                hrany.insert({ u, v });
+            }
         }
     }
 
@@ -86,16 +92,15 @@ void doplnDAG(const string& vystupSubor) {
         cerr << "Chyba: nepodarilo sa vytvorit vystupny subor '" << vystupSubor << "'!\n";
         return;
     }
-    for (auto& [u, v] : hrany)
-        out << u << " " << v << "\n";
-    out.close();
-
+    for (auto& hrana : hrany) {
+        out << hrana.first << " " << hrana.second << "\n";
+    }
     // ocakavane hrany podla vzorca (n-1) / 2 = pocet hran
     long long ocakavane = (long long)n * (n - 1) / 2;
     cout << "Ocakavany pocet hran kompletneho DAG: " << ocakavane << "\n";
 
     // vypis skutocnych poctov
     cout << "Kompletny DAG — pocet vrcholov: " << n
-         << ", pocet hran: " << (long long)hrany.size() << "\n";
+        << ", pocet hran: " << (long long)hrany.size() << "\n";
     cout << "Kompletny DAG zapísany do suboru: " << vystupSubor << "\n";
 }

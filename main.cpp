@@ -28,26 +28,26 @@
 
 #include "src/graph.hpp"
 
-/**
- * @brief Hlavná funkcia — vstupný bod programu.
- *
- * Postup:
- *  -# Načíta meno vstupného súboru od používateľa.
- *  -# Načíta hrany grafu zo súboru a zostaví zoznam susedov @c adj[].
- *  -# Zavolá jeDAG() — ak graf nie je DAG, vypíše hlásenie a skončí.
- *  -# Vypíše body 1 a 2 na stdout (či je DAG, počty vrcholov a hrán).
- *  -# Odvodí meno výstupného súboru (@c vstup_complete.txt).
- *  -# Zavolá doplnDAG() — doplní hrany, zapíše súbor, vypíše body 3 a 4.
- *
- * @return @c 0 pri úspešnom behu,
- *         @c 1 ak sa súbor nedá otvoriť alebo je prázdny.
- */
+ /**    
+  * @brief Hlavná funkcia — vstupný bod programu.
+  *
+  * Postup:
+  *  -# Načíta meno vstupného súboru od používateľa.
+  *  -# Načíta hrany grafu zo súboru a zostaví zoznam susedov @c adj[].
+  *  -# Zavolá jeDAG() — ak graf nie je DAG, vypíše hlásenie a skončí.
+  *  -# Vypíše body 1 a 2 na stdout (či je DAG, počty vrcholov a hrán).
+  *  -# Odvodí meno výstupného súboru (@c vstup_complete.txt).
+  *  -# Zavolá doplnDAG() — doplní hrany, zapíše súbor, vypíše body 3 a 4.
+  *
+  * @return @c 0 pri úspešnom behu,
+  *         @c 1 ak sa súbor nedá otvoriť alebo je prázdny.
+  */
 int main() {
     // Nacitanie suboru
 
     // premena pre meno suboru
     string subor;
-    cout << "Zadaj meno suboru: ";  
+    cout << "Zadaj meno suboru: ";
     cin >> subor;                   // nacitame meno suboru
 
     // otvorime subor
@@ -56,11 +56,11 @@ int main() {
     // ak neni subor tak koncime
     if (!f) {
         cerr << "Chyba: subor '" << subor << "' sa neda otvorit!\n";
-        return 1;  
+        return 1;
     }
 
     // kazda hrana je dvojica (from, to) — z akeho vrcholu do akeho
-    vector<pair<int,int>> hranyZoSuboru;
+    vector<pair<int, int>> hranyZoSuboru;
 
     // maxIdx sleduje najvacsi ciselny index vrcholu 
     // zaciname na -1 ak subor bude prazdny ostane -1
@@ -68,10 +68,10 @@ int main() {
 
     // citanie suboru 
     while (f >> u >> v) {
-        hranyZoSuboru.push_back({u, v});          // pridame hranu do zoznamu
+        hranyZoSuboru.push_back({ u, v });          // pridame hranu do zoznamu
         maxIdx = max(maxIdx, max(u, v));           // aktualizujeme maximalny index vrcholu
     }
-    f.close(); 
+    f.close();
 
     // ak je maxIdx -1 subor bol prazdny alebo poskodeny
     if (maxIdx < 0) {
@@ -79,38 +79,40 @@ int main() {
         return 1;
     }
 
-    
+
     n = maxIdx + 1;     // vrcholy
     adj.assign(n, {});  // inicializujeme zoznam susedov (n prazdnych vektorov)
 
     // naplnime zoznam susedov z nacitancyh hran
     // pre kazdu hranu (from → to) pridame 'to' do zoznamu susedov vrcholu 'from'
-    for (auto& [from, to] : hranyZoSuboru)
-        adj[from].push_back(to);
+    for (auto& hrana : hranyZoSuboru) {
+        adj[hrana.first].push_back(hrana.second);
+    }
 
     if (!jeDAG()) {
         // graf nieje dag
         cout << "Graf NIE JE DAG — obsahuje orientovany cyklus.\n";
         // vypiseme co sme naratali aj napriek tomu ze nieje dag
         cout << "Pocet vrcholov: " << n
-             << ", pocet hran: " << hranyZoSuboru.size() << "\n";
-        return 0; 
+            << ", pocet hran: " << hranyZoSuboru.size() << "\n";
+        return 0;
     }
 
-    
+
     cout << "Graf JE DAG.\n";
     // pocet vrcholov vstupneho grafu
     cout << "Pocet vrcholov: " << n
-         << ", pocet hran: " << hranyZoSuboru.size() << "\n";
+        << ", pocet hran: " << hranyZoSuboru.size() << "\n";
 
     // ideme doplnit dag
     string vystupSubor;
     size_t bodka = subor.rfind('.');   // najdeme poslednu bodku v subore
-    if (bodka != string::npos)         // ak bodka existuje tak mame priponu
+    if (bodka != string::npos) {         // ak bodka existuje tak mame priponu
         vystupSubor = subor.substr(0, bodka) + "_complete" + subor.substr(bodka);
-    else                               // ak bodka nieje nemame priponu
+    }
+    else {                               // ak bodka nieje nemame priponu
         vystupSubor = subor + "_complete";
-
+    }
     // zavolame funkciu na doplnenie dagu
     doplnDAG(vystupSubor);
 
