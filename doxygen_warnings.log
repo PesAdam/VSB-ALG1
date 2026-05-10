@@ -1,0 +1,35 @@
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:23: warning: Found recursive @copybrief or @copydoc relation for argument 'cyklus'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:19: warning: Found recursive @copybrief or @copydoc relation for argument 'stav'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:21: warning: Found recursive @copybrief or @copydoc relation for argument 'topo'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:15: warning: Found recursive @copybrief or @copydoc relation for argument 'n'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:17: warning: Found recursive @copybrief or @copydoc relation for argument 'adj'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:17: warning: Found recursive @copydetails or @copydoc relation for argument 'adj'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:23: warning: Found recursive @copydetails or @copydoc relation for argument 'cyklus'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:15: warning: Found recursive @copydetails or @copydoc relation for argument 'n'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:19: warning: Found recursive @copydetails or @copydoc relation for argument 'stav'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.cpp:21: warning: Found recursive @copydetails or @copydoc relation for argument 'topo'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:33: warning: Found recursive @copybrief or @copydoc relation for argument 'adj'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:33: warning: Found recursive @copydetails or @copydoc relation for argument 'adj'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:60: warning: Found recursive @copybrief or @copydoc relation for argument 'cyklus'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:60: warning: Found recursive @copydetails or @copydoc relation for argument 'cyklus'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:25: warning: Found recursive @copybrief or @copydoc relation for argument 'n'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:25: warning: Found recursive @copydetails or @copydoc relation for argument 'n'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:41: warning: Found recursive @copybrief or @copydoc relation for argument 'stav'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:41: warning: Found recursive @copydetails or @copydoc relation for argument 'stav'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:51: warning: Found recursive @copybrief or @copydoc relation for argument 'topo'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/src/graph.hpp:51: warning: Found recursive @copydetails or @copydoc relation for argument 'topo'.
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:5: warning: unable to resolve reference to '1-čo-je-to-graf' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:6: warning: unable to resolve reference to '2-čo-je-orientovaný-graf' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:7: warning: unable to resolve reference to '3-čo-je-dag' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:8: warning: unable to resolve reference to '4-čo-je-kompletný-dag' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:9: warning: unable to resolve reference to '5-ako-je-graf-reprezentovaný-v-pamäti' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:10: warning: unable to resolve reference to '6-čo-je-dfs' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:11: warning: unable to resolve reference to '7-ako-dfs-detekuje-cyklus' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:12: warning: unable to resolve reference to '8-čo-je-topologické-poradie' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:13: warning: unable to resolve reference to '9-ako-program-doplní-dag-na-kompletný' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:14: warning: unable to resolve reference to '10-jednoduchý-ľudský-príklad-od-začiatku-do-konca' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:15: warning: unable to resolve reference to '11-podrobné-fungovanie-kódu--funkcia-po-funkcii' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:16: warning: unable to resolve reference to '12-formát-vstupného-a-výstupného-súboru' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:17: warning: unable to resolve reference to '13-ako-program-spustiť' for \ref command
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:74: warning: Found unknown command '\frac'
+/Users/belo/Desktop/projects/algoritmy1/projekt/README.md:74: warning: Found unknown command '\cdot'
