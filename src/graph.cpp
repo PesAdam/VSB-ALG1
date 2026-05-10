@@ -9,7 +9,7 @@
 #include "graph.hpp"
 
 // ============================================================
-//  Definície globálnych premenných
+// globalne premene
 // ============================================================
 
 /// @copydoc n
@@ -24,63 +24,63 @@ vector<int> topo;
 bool cyklus;
 
 // ============================================================
-//  Implementácie funkcií
+//  implementacie funkcii
 // ============================================================
 
 void dfs(int u) {
-    stav[u] = 1; // sivý — práve navštevujeme u (je na zásobníku rekurzie)
+    stav[u] = 1; // sivy — prave navstevujeme u (je na zasobniku rekurzie)
 
     for (int v : adj[u]) {
         if (stav[v] == 1) {
-            // Sivý sused = spätná hrana = cyklus
+            // ak je sused sivy tak mame cyklus
             cyklus = true;
             return;
         }
         if (stav[v] == 0)
-            dfs(v); // rekurzívne zanorenie do nenavštíveného suseda
+            dfs(v); // rekurzia
 
-        if (cyklus) return; // prerušíme rekurziu hneď po nájdení cyklu
+        if (cyklus) return; // ak je cyklus tak koncime rekurziu
     }
 
-    stav[u] = 2;        // čierny — všetci susedia spracovaní
-    topo.push_back(u);  // pridáme do topologického poradia (odzadu)
+    stav[u] = 2;        // cierny — vsetci susedia spracovani
+    topo.push_back(u);  // pridame do topologickeho poradia (odzadu)
 }
 
 bool jeDAG() {
-    stav.assign(n, 0); // všetky vrcholy sú biele
+    stav.assign(n, 0); // vsetky vrcholy su biele, pripravene
     cyklus = false;
     topo.clear();
 
-    // Spustíme DFS z každého nenavštíveného vrcholu — pokryjeme aj nesúvislý graf
+    // spustime DFS z kazdeho vrcholu
     for (int i = 0; i < n; i++)
         if (stav[i] == 0)
             dfs(i);
 
-    // DFS pridával odzadu → otočíme na správne topologické poradie
+    // DFS pridava odzadu preto my potrebujeme topo otocit
     reverse(topo.begin(), topo.end());
 
     return !cyklus;
 }
 
 void doplnDAG(const string& vystupSubor) {
-    // Množina existujúcich hrán — O(log n) overenie existencie
+    // mnozina existujucich hran
     set<pair<int,int>> hrany;
 
     for (int u = 0; u < n; u++)
         for (int v : adj[u])
             hrany.insert({u, v});
 
-    // Pridáme chýbajúce hrany podľa topologického poradia (i < j → bez cyklu)
+    // pridame chybajuce hrany podla topologickeho poradia (i < j → bez cyklu)
     for (int i = 0; i < n; i++) {
         for (int j = i + 1; j < n; j++) {
             int u = topo[i]; // predchodca
-            int v = topo[j]; // nasledovník
+            int v = topo[j]; // nasledovnik
             if (!hrany.count({u, v}))
                 hrany.insert({u, v});
         }
     }
 
-    // Zapíšeme kompletný DAG do výstupného súboru (formát: "u v" na každý riadok)
+    // zapiseme kompletny DAG do suboru
     ofstream out(vystupSubor);
     if (!out) {
         cerr << "Chyba: nepodarilo sa vytvorit vystupny subor '" << vystupSubor << "'!\n";
@@ -90,11 +90,11 @@ void doplnDAG(const string& vystupSubor) {
         out << u << " " << v << "\n";
     out.close();
 
-    // Bod 3: očakávaný počet hrán podľa vzorca n*(n-1)/2
+    // ocakavane hrany podla vzorca (n-1) / 2 = pocet hran
     long long ocakavane = (long long)n * (n - 1) / 2;
     cout << "Ocakavany pocet hran kompletneho DAG: " << ocakavane << "\n";
 
-    // Bod 4: skutočný počet vrcholov a hrán výsledku
+    // vypis skutocnych poctov
     cout << "Kompletny DAG — pocet vrcholov: " << n
          << ", pocet hran: " << (long long)hrany.size() << "\n";
     cout << "Kompletny DAG zapísany do suboru: " << vystupSubor << "\n";

@@ -14,12 +14,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
-
 using namespace std;
-
-// ============================================================
-//  Globálne premenné — deklarácie (definície sú v graph.cpp)
-// ============================================================
 
 /**
  * @brief Celkový počet vrcholov grafu.

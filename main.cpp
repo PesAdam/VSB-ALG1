@@ -43,98 +43,76 @@
  *         @c 1 ak sa súbor nedá otvoriť alebo je prázdny.
  */
 int main() {
-    // --- Načítanie súboru ---
+    // Nacitanie suboru
 
-    // Premenná pre meno súboru — používateľ ho zadá zo štandardného vstupu.
+    // premena pre meno suboru
     string subor;
-    cout << "Zadaj meno suboru: ";  // Výzva pre používateľa.
-    cin >> subor;                   // Načítame meno súboru (jedno slovo, bez medzier).
+    cout << "Zadaj meno suboru: ";  
+    cin >> subor;                   // nacitame meno suboru
 
-    // Otvoríme súbor na čítanie (ifstream = input file stream).
+    // otvorime subor
     ifstream f(subor);
 
-    // Ak sa súbor nepodarilo otvoriť (neexistuje, nemáme práva, ...), skončíme s chybou.
+    // ak neni subor tak koncime
     if (!f) {
         cerr << "Chyba: subor '" << subor << "' sa neda otvorit!\n";
-        return 1;   // Nenulový návratový kód signalizuje chybu.
+        return 1;  
     }
 
-    // Dočasné pole na uloženie načítaných hrán.
-    // Každá hrana je dvojica (from, to) — z akého vrcholu do akého.
+    // kazda hrana je dvojica (from, to) — z akeho vrcholu do akeho
     vector<pair<int,int>> hranyZoSuboru;
 
-    // maxIdx sleduje najväčší číselný index vrcholu, ktorý sme videli.
-    // Začíname na -1 — ak súbor bude prázdny, ostane -1 a to odhalíme neskôr.
+    // maxIdx sleduje najvacsi ciselny index vrcholu 
+    // zaciname na -1 ak subor bude prazdny ostane -1
     int maxIdx = -1, u, v;
 
-    // Čítame súbor riadok po riadku — každý riadok obsahuje dve čísla: u a v.
-    // Operátor >> číta číslo a preskočí biele znaky (medzery, nové riadky).
-    // Cyklus skončí keď narazíme na koniec súboru alebo chybný formát.
+    // citanie suboru 
     while (f >> u >> v) {
-        hranyZoSuboru.push_back({u, v});          // Pridáme hranu do zoznamu.
-        maxIdx = max(maxIdx, max(u, v));           // Aktualizujeme maximálny index vrcholu.
+        hranyZoSuboru.push_back({u, v});          // pridame hranu do zoznamu
+        maxIdx = max(maxIdx, max(u, v));           // aktualizujeme maximalny index vrcholu
     }
-    f.close();  // Zatvoríme súbor — už ho nepotrebujeme.
+    f.close(); 
 
-    // Ak maxIdx zostal -1, súbor bol prázdny alebo mal zlý formát.
+    // ak je maxIdx -1 subor bol prazdny alebo poskodeny
     if (maxIdx < 0) {
         cout << "Subor je prazdny alebo nema spravny format.\n";
         return 1;
     }
 
-    // Vrcholy sú číslované od 0 po maxIdx, teda ich je celkom maxIdx+1.
-    n = maxIdx + 1;
+    
+    n = maxIdx + 1;     // vrcholy
+    adj.assign(n, {});  // inicializujeme zoznam susedov (n prazdnych vektorov)
 
-    // Inicializujeme zoznam susedov — n prázdnych vektorov, jeden pre každý vrchol.
-    adj.assign(n, {});
-
-    // Naplníme zoznam susedov z načítaných hrán.
-    // Pre každú hranu (from → to) pridáme 'to' do zoznamu susedov vrcholu 'from'.
-    for (auto& [from, to] : hranyZoSuboru)   // Štruktúrovaná väzba (C++17) — rozbalíme dvojicu.
+    // naplnime zoznam susedov z nacitancyh hran
+    // pre kazdu hranu (from → to) pridame 'to' do zoznamu susedov vrcholu 'from'
+    for (auto& [from, to] : hranyZoSuboru)
         adj[from].push_back(to);
 
-    // --- Výstup podľa zadania: bod 1 a bod 2 ---
-
-    // Bod 1: Informácia, či zadaný graf je DAG.
-    // Bod 2: Počet vrcholov a počet hrán zadaného grafu.
-    // Obe informácie vypíšeme po zistení výsledku DFS.
-
-    // Zavoláme funkciu jeDAG(), ktorá:
-    //   1. Spustí DFS na celý graf.
-    //   2. Ak nájde cyklus, vráti false.
-    //   3. Ak je to DAG, vráti true a vyplní pole topo[] topologickým poradím.
     if (!jeDAG()) {
-        // Bod 1: Graf nie je DAG.
+        // graf nieje dag
         cout << "Graf NIE JE DAG — obsahuje orientovany cyklus.\n";
-        // Bod 2: Vypíšeme počty aj pre prípad, že graf nie je DAG.
+        // vypiseme co sme naratali aj napriek tomu ze nieje dag
         cout << "Pocet vrcholov: " << n
              << ", pocet hran: " << hranyZoSuboru.size() << "\n";
-        return 0;   // Nemá zmysel doplňovať hrany — skončíme.
+        return 0; 
     }
 
-    // Bod 1: Graf je DAG.
+    
     cout << "Graf JE DAG.\n";
-    // Bod 2: Počet vrcholov a hrán vstupného grafu.
+    // pocet vrcholov vstupneho grafu
     cout << "Pocet vrcholov: " << n
          << ", pocet hran: " << hranyZoSuboru.size() << "\n";
 
-    // --- Doplnenie na kompletný DAG a zápis do súboru ---
-
-    // Odvodíme meno výstupného súboru z mena vstupného:
-    // nájdeme poslednú bodku v názve súboru a vložíme "_complete" pred príponu.
-    // Napríklad: "graph1.txt" → "graph1_complete.txt"
-    // Ak súbor nemá príponu, jednoducho pridáme "_complete".
+    // ideme doplnit dag
     string vystupSubor;
-    size_t bodka = subor.rfind('.');   // Nájdeme poslednú bodku v názve súboru.
-    if (bodka != string::npos)         // Ak bodka existuje (súbor má príponu)...
+    size_t bodka = subor.rfind('.');   // najdeme poslednu bodku v subore
+    if (bodka != string::npos)         // ak bodka existuje tak mame priponu
         vystupSubor = subor.substr(0, bodka) + "_complete" + subor.substr(bodka);
-    else                               // Ak bodka neexistuje (bez prípony)...
+    else                               // ak bodka nieje nemame priponu
         vystupSubor = subor + "_complete";
 
-    // Zavoláme funkciu, ktorá doplní chýbajúce hrany, zapíše výsledok do súboru
-    // a vypíše body 3 a 4 na stdout.
+    // zavolame funkciu na doplnenie dagu
     doplnDAG(vystupSubor);
 
-    // Program skončil úspešne.
     return 0;
 }
