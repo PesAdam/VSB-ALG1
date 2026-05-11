@@ -43,12 +43,11 @@
   *         @c 1 ak sa súbor nedá otvoriť alebo je prázdny.
   */
 int main() {
-    // Nacitanie suboru
+    // nacitanie suboru
 
-    // premena pre meno suboru
-    string subor;
+    string subor;   // premena pre meno suboru
     cout << "Zadaj meno suboru: ";
-    cin >> subor;                   // nacitame meno suboru
+    cin >> subor;  // nacitame meno suboru
 
     // otvorime subor
     ifstream f(subor);
@@ -60,31 +59,29 @@ int main() {
     }
 
     // kazda hrana je dvojica (from, to) — z akeho vrcholu do akeho
-    vector<pair<int, int>> hranyZoSuboru;
+    set<pair<int, int>> hranyZoSuboru;
+    set<int> unique_nodes;
 
-    // maxIdx sleduje najvacsi ciselny index vrcholu 
+    // maxIdx sleduje najvacsi ciselny index vrcholu
     // zaciname na -1 ak subor bude prazdny ostane -1
     int maxIdx = -1, u, v;
+    int maxNode = -1;
 
     // citanie suboru 
     while (f >> u >> v) {
-        hranyZoSuboru.push_back({ u, v });          // pridame hranu do zoznamu
-        maxIdx = max(maxIdx, max(u, v));           // aktualizujeme maximalny index vrcholu
+        hranyZoSuboru.insert({ u, v });
+        unique_nodes.insert(u);  
+        unique_nodes.insert(v);        
+        maxNode = max(maxNode, max(u, v));            // precitame si dvojice a vyberieme vzdy najvacsi index zo vsetkych dvojich
     }
+
     f.close();
+    n = maxNode + 1;     // pocet vrcholov
 
-    // ak je maxIdx -1 subor bol prazdny alebo poskodeny
-    if (maxIdx < 0) {
-        cout << "Subor je prazdny alebo nema spravny format.\n";
-        return 1;
-    }
-
-
-    n = maxIdx + 1;     // vrcholy
-    adj.assign(n, {});  // inicializujeme zoznam susedov (n prazdnych vektorov)
+    adj.assign(n, {});  // inicializujeme zoznam susedov adjency (n prazdnych vektorov)
 
     // naplnime zoznam susedov z nacitancyh hran
-    // pre kazdu hranu (from → to) pridame 'to' do zoznamu susedov vrcholu 'from'
+    // pre kazdu hranu ktoru sme nacitali zo suboru zozstavime zoznam susedov (naplnime zasobnik)
     for (auto& hrana : hranyZoSuboru) {
         adj[hrana.first].push_back(hrana.second);
     }
@@ -93,18 +90,16 @@ int main() {
         // graf nieje dag
         cout << "Graf NIE JE DAG — obsahuje orientovany cyklus.\n";
         // vypiseme co sme naratali aj napriek tomu ze nieje dag
-        cout << "Pocet vrcholov: " << n
+        cout << "Pocet vrcholov: " << unique_nodes.size()
             << ", pocet hran: " << hranyZoSuboru.size() << "\n";
         return 0;
     }
 
-
     cout << "Graf JE DAG.\n";
     // pocet vrcholov vstupneho grafu
-    cout << "Pocet vrcholov: " << n
+    cout << "Pocet vrcholov: " << unique_nodes.size()
         << ", pocet hran: " << hranyZoSuboru.size() << "\n";
 
-    // ideme doplnit dag
     string vystupSubor;
     size_t bodka = subor.rfind('.');   // najdeme poslednu bodku v subore
     if (bodka != string::npos) {         // ak bodka existuje tak mame priponu
